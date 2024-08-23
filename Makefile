@@ -528,6 +528,7 @@ SDLCONFIG := $(SDLCROSS)sdl2-config
 BACKEND_CFLAGS := -DRAPI_$(RENDER_API)=1 -DWAPI_$(WINDOW_API)=1 -DAAPI_$(AUDIO_API)=1
 # can have multiple controller APIs
 BACKEND_CFLAGS += $(foreach capi,$(CONTROLLER_API),-DCAPI_$(capi)=1)
+BACKEND_CFLAGS += -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion
 BACKEND_LDFLAGS :=
 SDL2_USED := 0
 

@@ -4,6 +4,7 @@
 #include "moon/ui/interfaces/moon-widget.h"
 #include <string>
 #include <vector>
+#include <cstdint>
 
 struct MWValueBind{
     bool  *bvar;
