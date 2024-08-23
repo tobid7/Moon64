@@ -10,8 +10,8 @@ extern "C" {
 }
 
 MAudioCategory::MAudioCategory() : MoonCategory("TEXT_OPT_AUDIO"){
-    this->catOptions.push_back(new MWValue(22, 57,  "TEXT_OPT_MVOLUME",  {.ivar = (int*)&configMasterVolume,  .max = 127.0f, .min = .0f, .step = 1.0f}, true));
-    this->catOptions.push_back(new MWValue(22, 74,  "TEXT_OPT_MUSVOLUME", {.ivar = (int*)&configMusicVolume,  .max = 127.0f, .min = .0f, .step = 1.0f}, true));
-    this->catOptions.push_back(new MWValue(22, 91,  "TEXT_OPT_SFXVOLUME", {.ivar = (int*)&configSfxVolume,    .max = 127.0f, .min = .0f, .step = 1.0f}, true));
-    this->catOptions.push_back(new MWValue(22, 108, "TEXT_OPT_ENVVOLUME", {.ivar = (int*)&configEnvVolume,    .max = 127.0f, .min = .0f, .step = 1.0f}, true));
+    this->catOptions.push_back(new MWValue(22.0f, 57.0f,  "TEXT_OPT_MVOLUME",  MWValueBind((int*)&configMasterVolume, 127.0f, 0.0f, 1.0f), true));
+    this->catOptions.push_back(new MWValue(22.0f, 74.0f,  "TEXT_OPT_MUSVOLUME", MWValueBind((int*)&configMusicVolume, 127.0f, 0.0f, 1.0f), true));
+    this->catOptions.push_back(new MWValue(22.0f, 91.0f,  "TEXT_OPT_SFXVOLUME", MWValueBind((int*)&configSfxVolume, 127.0f, 0.0f, 1.0f), true));
+    this->catOptions.push_back(new MWValue(22.0f, 108.0f, "TEXT_OPT_ENVVOLUME", MWValueBind((int*)&configEnvVolume, 127.0f, 0.0f, 1.0f), true));
 }

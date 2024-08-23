@@ -21,20 +21,33 @@ MGameCategory::MGameCategory() : MoonCategory("TEXT_OPT_GAME"){
         lngNames.push_back(lng->name);
     }
 
-    this->catOptions.push_back(new MWValue(22, 57, "TEXT_OPT_LANGUAGE",   {.index = reinterpret_cast<int*>(&configLanguage), .values = &lngNames, .callback = [](){
-        if( configLanguage < Moon::languages.size())
-            Moon::setCurrentLanguage(Moon::languages[configLanguage]);
-    }}, true));
-    this->catOptions.push_back(new MWValue(22, 74, "TEXT_OPT_PRECACHE",   {.bvar = &configPrecacheRes}, true));
+    this->catOptions.push_back(new MWValue(22, 57, "TEXT_OPT_LANGUAGE", 
+        MWValueBind(reinterpret_cast<int*>(&configLanguage), &lngNames, []() {
+            if (configLanguage < Moon::languages.size())
+                Moon::setCurrentLanguage(Moon::languages[configLanguage]);
+        }), true));
+
+    this->catOptions.push_back(new MWValue(22, 74, "TEXT_OPT_PRECACHE", 
+        MWValueBind(&configPrecacheRes), true));
+
 #ifdef TARGET_SWITCH
-    this->catOptions.push_back(new MWValue(22, 91, "TEXT_OPT_SWITCH_HUD", {.bvar = &configSwitchHud}, true));
+    this->catOptions.push_back(new MWValue(22, 91, "TEXT_OPT_SWITCH_HUD", 
+        MWValueBind(&configSwitchHud), true));
 #endif
-    this->catOptions.push_back(new MWValue(22, 0, "Level of detail",  {.index = reinterpret_cast<int*>(&configLODMode), .values = &modes }, false));
-    this->catOptions.push_back(new MWValue(22, 0, "Achievements",   { .btn = [](){
-        MoonChangeUI(2);
-    }}, false));
-    this->catOptions.push_back(new MWValue(22, 0, "Addons",   { .btn = [](){
-        MoonChangeUI(1);
-    }}, false));
-    this->catOptions.push_back(new MWValue(22, 0, "TEXT_EXIT_GAME",   { .btn = game_exit}, true));
+
+    this->catOptions.push_back(new MWValue(22, 0, "Level of detail", 
+        MWValueBind(reinterpret_cast<int*>(&configLODMode), &modes, nullptr), false));
+
+    this->catOptions.push_back(new MWValue(22, 0, "Achievements", 
+        MWValueBind([]() {
+            MoonChangeUI(2);
+        }), false));
+
+    this->catOptions.push_back(new MWValue(22, 0, "Addons", 
+        MWValueBind([]() {
+            MoonChangeUI(1);
+        }), false));
+
+    this->catOptions.push_back(new MWValue(22, 0, "TEXT_EXIT_GAME", 
+        MWValueBind(game_exit), true));
 }
