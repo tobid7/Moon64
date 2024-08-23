@@ -213,7 +213,7 @@ void main_func(char *argv[]) {
     #define WAPI_NAME "DXGI"
     wm_api = &gfx_dxgi;
     #endif
-    #if defined(RAPI_GL)
+    #if defined(RAPI_GL) || defined(RAPI_GL_LEGACY)
     # ifdef USE_GLES
     #  define RAPI_NAME "OpenGL ES"
     # else
