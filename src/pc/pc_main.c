@@ -206,17 +206,38 @@ void main_func(char *argv[]) {
         configWindow.fullscreen = true;
     else if (gCLIOpts.FullScreen == 2)
         configWindow.fullscreen = false;
-
+    #if defined(WAPI_SDL2)
+    #define WAPI_NAME "SDL2"
     wm_api = &gfx_sdl;
-    rendering_api = &gfx_opengl_api;
+    #elif defined(WAPI_DXGI)
+    #define WAPI_NAME "DXGI"
+    wm_api = &gfx_dxgi;
+    #endif
+    #if defined(RAPI_GL)
     # ifdef USE_GLES
     #  define RAPI_NAME "OpenGL ES"
     # else
     #  define RAPI_NAME "OpenGL"
     # endif
+    rendering_api = &gfx_opengl_api;
+    #elif defined(RAPI_D3D11)
+    #define RAPI_NAME "DirectX11"
+    rendering_api = &gfx_direct3d11_api;
+    #elif defined(RAPI_D3D12)
+    #define RAPI_NAME "DirectX12"
+    rendering_api = &gfx_direct3d12_api;
+    #endif
+
+    #ifndef RAPI_NAME
+    #define RAPI_NAME "Unknown"
+    #endif
+
+    #ifndef WAPI_NAME
+    #define WAPI_NAME "Unknown"
+    #endif
 
     char window_title[96] =
-    "Super Mario 64 - Moon64 (" RAPI_NAME ")";
+    "Super Mario 64 - Moon64 (" WAPI_NAME " - > " RAPI_NAME ")";
 
     gfx_init(wm_api, rendering_api, window_title);
     wm_api->set_keyboard_callbacks(keyboard_on_key_down, keyboard_on_key_up, keyboard_on_all_keys_up);

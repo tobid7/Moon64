@@ -472,7 +472,7 @@ ifeq ($(TARGET_SWITCH),1)
   APP_AUTHOR := Nintendo, n64decomp team, UnderVolt team
   APP_VERSION := $(GIT_HASH)
   APP_ICON := $(CURDIR)/textures/logo/moon64-logo.jpg
-  INCLUDE_CFLAGS += -isystem$(LIBNX)/include -I$(PORTLIBS)/include
+  INCLUDE_CFLAGS += -I$(LIBNX)/include -I$(PORTLIBS)/include
   OPT_FLAGS := -O2
 endif
 
@@ -544,7 +544,7 @@ else ifeq ($(WINDOW_API),SDL2)
   ifeq ($(WINDOWS_BUILD),1)
     BACKEND_LDFLAGS += -lglew32 -lglu32 -lopengl32
   else ifneq ($(TARGET_RPI)$(TARGET_SWITCH),00)
-    BACKEND_LDFLAGS += -lGLESv2
+    BACKEND_LDFLAGS += -lSDL2 -lEGL -lGLESv2 -lglapi -ldrm_nouveau
   else ifeq ($(OSX_BUILD),1)
     BACKEND_LDFLAGS += -framework OpenGL $(shell pkg-config --libs glew)
   else
@@ -683,7 +683,7 @@ else ifeq ($(OSX_BUILD),1)
   LDFLAGS := -lm $(PLATFORM_LDFLAGS) $(BACKEND_LDFLAGS) -lpthread -lcurl
 
 else ifeq ($(TARGET_SWITCH),1)
-  LDFLAGS := -specs=$(LIBNX)/switch.specs $(NXARCH) $(OPT_FLAGS) -no-pie -L$(LIBNX)/lib $(BACKEND_LDFLAGS) -lnx -lm `curl-config --libs`
+  LDFLAGS := -specs=$(LIBNX)/switch.specs $(NXARCH) $(OPT_FLAGS) -no-pie -L$(LIBNX)/lib -L$(PORTLIBS)/lib $(BACKEND_LDFLAGS) -lnx -lm `curl-config --libs`
 
 else
   LDFLAGS := $(BITS) -march=$(TARGET_ARCH) -lm $(BACKEND_LDFLAGS) -no-pie -lpthread -lcurl

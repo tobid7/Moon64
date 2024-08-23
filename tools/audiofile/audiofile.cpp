@@ -708,6 +708,26 @@ const CompressionUnit *_af_compression_unit_from_id (int compressionid);
 
 #endif
 
+// small stupid fix for windows
+#ifndef strdup
+#include <cstring>
+char* strdup(const char* str) {
+    if (str == nullptr) {
+        return nullptr;
+    }
+
+    size_t len = strlen(str);
+    char* copy = (char*)malloc(len + 1);
+    if (copy == nullptr) {
+        return nullptr;
+    }
+
+    strcpy(copy, str);
+    return copy;
+}
+#endif
+
+
 // file: aupvinternal.h
 /*
 	Audio File Library
